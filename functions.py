@@ -77,12 +77,11 @@ def multiply_even_numbers(list):
 		result *= vals
 	return result
 
-def mode(list):
-	count = {vals: list.count(vals) for vals in list}
+def mode(l):
+	count = {vals: l.count(vals) for vals in l}
 	max_value = max(count.values())
 	correct_index = list(count.values()).index(max_value)
 	return list(count.keys())[correct_index]
-	# NOT WORKING FOR ME ??? 
 
 def capitalize(str):
 	return str[0].upper() + str[1:]
@@ -112,9 +111,36 @@ def once(fn):
 		if inner.count == 1:
 			return fn(*args)
 		else:
-			inner.count += 1
 			return None
 	inner.count = 0
 	return inner
+
+# once using a decorator:
+from functools import wraps
+
+def once_decorator(fn):
+	@wraps(fn)
+	def inner(*args):
+		inner.count += 1
+		if inner.count == 1:
+			return fn(*args)
+		else:
+			return None
+	inner.count = 0
+	return inner
+
+@once_decorator
+def add(a,b):
+	"""this function adds two numbers together once"""
+	return a+b
+
+
+
+
+
+
+
+
+
 
 
